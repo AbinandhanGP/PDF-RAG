@@ -5,10 +5,12 @@ import { Queue } from "bullmq";
 import { QdrantVectorStore } from "@langchain/qdrant";
 import { GoogleGenerativeAIEmbeddings } from "@langchain/google-genai";
 import { OpenAI } from 'openai';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const client = new OpenAI({
-    apiKey: "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",
-    baseURL: "https://api.groq.com/openai/v1"
+    apiKey: process.env.GROQ_API_KEY,
+    baseURL: process.env.GROQ_BASE_URL
 })
 
 const queue = new Queue("pdf-upload-queue",{
@@ -68,7 +70,7 @@ app.get("/chat",async (req,res) => {
 
     const embeddings = new GoogleGenerativeAIEmbeddings({
     model: "gemini-embedding-001",
-    apiKey: "AIzaSyBcLw6rNZuKKGNgXts6KfyW31C01sqbAQk", 
+    apiKey: process.env.GEMINI_API_KEY, 
     });
 
     const vectorStore = await QdrantVectorStore.fromExistingCollection(embeddings, {
@@ -89,7 +91,7 @@ app.get("/chat",async (req,res) => {
     `;
     
     const chatResult = await client.chat.completions.create({
-        model: "openai/gpt-oss-120b",
+        model: "llama-3.3-70b-versatile",
         messages: [
             {role: "system",content: SYSTEM_PROMPT},
             {role: "user",content: query},

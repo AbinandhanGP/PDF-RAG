@@ -10,7 +10,7 @@ const ChatComponent: React.FC = () => {
     const handleQuerySubmission = async () => {
         setIsLoading(true);
         try {
-            const res = await fetch(`http://localhost:8000/chat?message=${message}`);
+            const res = await fetch(`http://${process.env.NEXT_PUBLIC_API_URL}/chat?message=${message}`);
             const data = await res.json();
             setAnswer(data.content);
         } catch (error) {

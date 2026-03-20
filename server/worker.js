@@ -24,7 +24,7 @@ const worker = new Worker('pdf-upload-queue', async job => {
 
     const embeddings = new GoogleGenerativeAIEmbeddings({
     model: "gemini-embedding-001",
-    apiKey: "AIzaSyBcLw6rNZuKKGNgXts6KfyW31C01sqbAQk", 
+    apiKey: process.env.GEMINI_API_KEY
     });
     
     try {
